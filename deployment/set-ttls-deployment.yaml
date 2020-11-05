@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f ../docker-compose.yml
+    kompose.version: 1.21.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: set-ttls
+  name: set-ttls
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: set-ttls
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f ../docker-compose.yml
+        kompose.version: 1.21.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: set-ttls
+    spec:
+      containers:
+      - env:
+        - name: SET_TTLS_BATCH_SIZE
+          value: "100"
+        - name: SET_TTLS_CURSOR
+          value: "0"
+        - name: SET_TTLS_LOG_PERIOD
+          value: 5s
+        - name: SET_TTLS_MATCH
+          value: '*'
+        - name: SET_TTLS_RATE_LIMIT
+          value: "1000"
+        - name: SET_TTLS_REDIS_ADDR
+          value: redis:6379
+        - name: SET_TTLS_REDIS_DB
+          value: "0"
+        - name: SET_TTLS_REDIS_DIAL_TIMEOUT
+          value: 5s
+        - name: SET_TTLS_REDIS_IDLE_CHECK_FREQUENCY
+          value: 30s
+        - name: SET_TTLS_REDIS_IDLE_TIMEOUT
+          value: 5m
+        - name: SET_TTLS_REDIS_MAX_RETRIES
+          value: "0"
+        - name: SET_TTLS_REDIS_MAX_RETRY_BACKOFF
+          value: 512ms
+        - name: SET_TTLS_REDIS_MIN_IDLE_CONNS
+          value: "20"
+        - name: SET_TTLS_REDIS_MIN_RETRY_BACKOFF
+          value: 8ms
+        - name: SET_TTLS_REDIS_NETWORK
+          value: tcp
+        - name: SET_TTLS_REDIS_POOL_SIZE
+          value: "100"
+        - name: SET_TTLS_REDIS_READ_TIMEOUT
+          value: 5s
+        - name: SET_TTLS_REDIS_WRITE_TIMEOUT
+          value: 5s
+        - name: SET_TTLS_TTL
+          value: 2880h
+        - name: SET_TTLS_WORKERS
+          value: "16"
+        image: set-ttls
+        imagePullPolicy: ""
+        name: set-ttls
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
