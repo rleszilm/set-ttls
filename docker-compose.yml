@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+## Services
+  set-ttls:
+    build:
+      context: .
+      args:
+        GO_MODULE: github.com/rleszilm/set-ttls
+        COMMAND: set-ttls
+    depends_on:
+      - redis
+    env_file: .set-ttls.env
+    environment:
+      ## Updater config
+      SET_TTLS_TTL: 2880h
+      SET_TTLS_WORKERS: 16
+      SET_TTLS_CURSOR: 0
+      SET_TTLS_MATCH: "*"
+      SET_TTLS_BATCH_SIZE: 100
+      SET_TTLS_RATE_LIMIT: 1000
+      SET_TTLS_LOG_PERIOD: 5s
+
+      ## Redis config
+      SET_TTLS_REDIS_NETWORK: tcp
+      SET_TTLS_REDIS_ADDR: redis:6379
+      SET_TTLS_REDIS_USERNAME: 
+      SET_TTLS_REDIS_PASSWORD: 
+      SET_TTLS_REDIS_DB: 0
+      SET_TTLS_REDIS_MAX_RETRIES: 0
+      SET_TTLS_REDIS_MIN_RETRY_BACKOFF: 8ms
+      SET_TTLS_REDIS_MAX_RETRY_BACKOFF: 512ms
+      SET_TTLS_REDIS_DIAL_TIMEOUT: 5s
+      SET_TTLS_REDIS_READ_TIMEOUT: 5s
+      SET_TTLS_REDIS_WRITE_TIMEOUT: 5s
+      SET_TTLS_REDIS_POOL_SIZE: 100
+      SET_TTLS_REDIS_MIN_IDLE_CONNS: 20
+      SET_TTLS_REDIS_MAX_CONN_AGE: 
+      SET_TTLS_REDIS_POOL_TIMEOUT: 
+      SET_TTLS_REDIS_IDLE_TIMEOUT: 5m
+      SET_TTLS_REDIS_IDLE_CHECK_FREQUENCY: 30s
+
+  ## Databases
+  redis:
+    image: redislabs/rebloom
+    ports:
+      - 6379:6379
